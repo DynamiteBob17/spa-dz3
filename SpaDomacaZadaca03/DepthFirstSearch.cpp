@@ -5,11 +5,11 @@ void DepthFirstSearch::search() {
 }
 
 long DepthFirstSearch::sleepMin() {
-    return 5L;
+    return 15L;
 }
 
 long DepthFirstSearch::sleepMax() {
-    return 40L;
+    return 50L;
 }
 
 DepthFirstSearch::DepthFirstSearch(Grid& grid, Canvas& canvas, SoundPlayer& soundPlayer) : SimpleStackSearch(grid, canvas, soundPlayer) {}

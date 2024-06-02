@@ -5,7 +5,7 @@ void DijkstrasAlgorithm::search() {
 }
 
 long DijkstrasAlgorithm::sleepMin() {
-    return 3L;
+    return 15L;
 }
 
 long DijkstrasAlgorithm::sleepMax() {

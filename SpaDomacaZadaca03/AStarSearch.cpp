@@ -5,7 +5,7 @@ void AStarSearch::search() {
 }
 
 long AStarSearch::sleepMin() {
-    return 7L;
+    return 15L;
 }
 
 long AStarSearch::sleepMax() {

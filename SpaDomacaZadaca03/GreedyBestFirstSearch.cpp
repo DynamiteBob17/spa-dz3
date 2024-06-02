@@ -5,7 +5,7 @@ void GreedyBestFirstSearch::search() {
 }
 
 long GreedyBestFirstSearch::sleepMin() {
-    return 7L;
+    return 15L;
 }
 
 long GreedyBestFirstSearch::sleepMax() {
