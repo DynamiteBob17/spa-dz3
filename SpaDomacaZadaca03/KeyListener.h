@@ -6,7 +6,7 @@
 #include "Canvas.h"
 #include "AlgoHandler.h"
 
-class MenuActionsBinder {
+class KeyListener {
 private:
 	tgui::Gui& gui;
 	tgui::MenuBar::Ptr menu;
@@ -15,11 +15,8 @@ private:
 	AlgoHandler& algoHandler;
 	SoundPlayer& soundPlayer;
 
-	void showMouseUsageMessageBox();
-	void showAlgorithmsMessageBox();
-
 public:
-	MenuActionsBinder(
+	KeyListener(
 		tgui::Gui& gui,
 		tgui::MenuBar::Ptr menu,
 		Grid& grid,
@@ -32,5 +29,5 @@ public:
 		canvas(canvas),
 		algoHandler(algoHandler),
 		soundPlayer(soundPlayer) {};
-	void bindActions();
+	void handleEvent(sf::Event event);
 };

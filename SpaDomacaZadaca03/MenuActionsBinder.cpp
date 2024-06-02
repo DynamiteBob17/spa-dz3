@@ -1,52 +1,94 @@
 #include "MenuActionsBinder.h"
 
+#include <thread>
+#include "DijkstrasAlgorithm.h"
+#include "DepthFirstSearch.h"
+#include "GreedyBestFirstSearch.h"
+#include "AStarSearch.h"
+
 void MenuActionsBinder::bindActions() {
-	menu->connectMenuItem("Run", "Run/Pause Search (SPACE)", []() {
-		std::cout << "Run/Pause Search action triggered" << std::endl;
+	menu->connectMenuItem("Run", "Run/Pause Search (SPACE)", [this]() {
+		if (canvas.searchNotRunning()) {
+			grid.clearPath();
+			grid.resetTileCosts();
+			gui.getWindow()->setTitle("Using " + algoHandler.getCurrentSearch()->getIdentifier() + " - RUNNING (Options disabled)");
+			std::thread([this]() {
+				algoHandler.getCurrentSearch()->run();
+				gui.getWindow()->setTitle("Using " + algoHandler.getCurrentSearch()->getIdentifier());
+				}).detach();
+		} else {
+			canvas.togglePauseRunningSearch();
+		}
 		});
 
-	menu->connectMenuItem("Run", "Terminate Search (X)", []() {
-		std::cout << "Terminate Search action triggered" << std::endl;
+	menu->connectMenuItem("Run", "Terminate Search (X)", [this]() {
+		canvas.setStopRunningSearch(true);
 		});
 
-	menu->connectMenuItem("Options", "Use Dijkstra's Algorithm", []() {
-		std::cout << "Use Dijkstra's Algorithm action triggered" << std::endl;
+	menu->connectMenuItem("Options", "Use Dijkstra's Algorithm (1)", [this]() {
+		if (canvas.searchNotRunning()) {
+			algoHandler.setCurrentSearch(new DijkstrasAlgorithm(grid, canvas, soundPlayer));
+			gui.getWindow()->setTitle("Using " + algoHandler.getCurrentSearch()->getIdentifier());
+		}
 		});
 
-	menu->connectMenuItem("Options", "Use Depth-First Search", []() {
-		std::cout << "Use Depth-First Search action triggered" << std::endl;
+	menu->connectMenuItem("Options", "Use Depth-First Search (2)", [this]() {
+		if (canvas.searchNotRunning()) {
+			algoHandler.setCurrentSearch(new DepthFirstSearch(grid, canvas, soundPlayer));
+			gui.getWindow()->setTitle("Using " + algoHandler.getCurrentSearch()->getIdentifier());
+		}
 		});
 
-	menu->connectMenuItem("Options", "Use Greedy Best-First Search", []() {
-		std::cout << "Use Greedy Best-First Search action triggered" << std::endl;
+	menu->connectMenuItem("Options", "Use Greedy Best-First Search (3)", [this]() {
+		if (canvas.searchNotRunning()) {
+			algoHandler.setCurrentSearch(new GreedyBestFirstSearch(grid, canvas, soundPlayer));
+			gui.getWindow()->setTitle("Using " + algoHandler.getCurrentSearch()->getIdentifier());
+		}
+		});
+	
+	menu->connectMenuItem("Options", "Use A* (A-Star) Search (4)", [this]() {
+		if (canvas.searchNotRunning()) {
+			algoHandler.setCurrentSearch(new AStarSearch(grid, canvas, soundPlayer));
+			gui.getWindow()->setTitle("Using " + algoHandler.getCurrentSearch()->getIdentifier());
+		}
 		});
 
-	menu->connectMenuItem("Options", "Use A*", []() {
-		std::cout << "Use A* action triggered" << std::endl;
+	menu->connectMenuItem("Options", "Generate maze - Kruskal's Algorithm (Q)", [this]() {
+		if (canvas.searchNotRunning()) {
+			grid.clearAll();
+			grid.randomMaze(MazeAlgo::KRUSKAL);
+		}
 		});
 
-	menu->connectMenuItem("Options", "Generate maze - Kruskal's Algorithm", []() {
-		std::cout << "Generate maze - Kruskal's Algorithm action triggered" << std::endl;
+	menu->connectMenuItem("Options", "Generate maze - Recursive Backtracking (E)", [this]() {
+		if (canvas.searchNotRunning()) {
+			grid.clearAll();
+			grid.randomMaze(MazeAlgo::REC_BACK);
+		}
 		});
 
-	menu->connectMenuItem("Options", "Generate maze - Recursive Backtracking", []() {
-		std::cout << "Generate maze - Recursive Backtracking action triggered" << std::endl;
+	menu->connectMenuItem("Options", "Clear Path (W)", [this]() {
+		if (canvas.searchNotRunning()) {
+			grid.clearPath();
+		}
 		});
 
-	menu->connectMenuItem("Options", "Clear Path (W)", []() {
-		std::cout << "Clear Path action triggered" << std::endl;
+	menu->connectMenuItem("Options", "Clear Solid Tiles (S)", [this]() {
+		if (canvas.searchNotRunning()) {
+			grid.clearSolid();
+		}
 		});
 
-	menu->connectMenuItem("Options", "Clear Solid Tiles (S)", []() {
-		std::cout << "Clear Solid Tiles action triggered" << std::endl;
+	menu->connectMenuItem("Options", "Clear All Tiles (C)", [this]() {
+		if (canvas.searchNotRunning()) {
+			grid.clearAll();
+		}
 		});
 
-	menu->connectMenuItem("Options", "Clear All Tiles (C)", []() {
-		std::cout << "Clear All Tiles action triggered" << std::endl;
-		});
-
-	menu->connectMenuItem("Options", "Reset Grid (R)", []() {
-		std::cout << "Reset Grid action triggered" << std::endl;
+	menu->connectMenuItem("Options", "Reset Grid (R)", [this]() {
+		if (canvas.searchNotRunning()) {
+			grid.reset(gui.getWindow()->getSize().x, gui.getWindow()->getSize().y);
+		}
 		});
 
 	menu->connectMenuItem("Info", "Mouse Usage", [this]() { showMouseUsageMessageBox(); });
