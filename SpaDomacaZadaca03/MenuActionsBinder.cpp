@@ -91,8 +91,14 @@ void MenuActionsBinder::bindActions() {
 		}
 		});
 
-	menu->connectMenuItem("Info", "Mouse Usage", [this]() { showMouseUsageMessageBox(); });
-	menu->connectMenuItem("Info", "Algorithms", [this]() { showAlgorithmsMessageBox(); });
+	menu->connectMenuItem("Info", "Mouse Usage", [this]() {
+		mouseListener.disable();
+		showMouseUsageMessageBox();
+		});
+	menu->connectMenuItem("Info", "Algorithms", [this]() {
+		mouseListener.disable();
+		showAlgorithmsMessageBox();
+		});
 }
 
 void MenuActionsBinder::showMouseUsageMessageBox() {
@@ -114,6 +120,7 @@ void MenuActionsBinder::showMouseUsageMessageBox() {
 	messageBox->onButtonPress([this, messageBox](const tgui::String& buttonText) {
 		if (buttonText == "OK") {
 			gui.remove(messageBox);
+			mouseListener.enable();
 		}
 		});
 }
@@ -163,6 +170,7 @@ A* Search is weighted and does guarantee the shortest path.
 	messageBox->onButtonPress([this, messageBox](const tgui::String& buttonText) {
 		if (buttonText == "OK") {
 			gui.remove(messageBox);
+			mouseListener.enable();
 		}
 		});
 }

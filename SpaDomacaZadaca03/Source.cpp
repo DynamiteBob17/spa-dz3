@@ -33,6 +33,7 @@ int main()
 	menu->addMenu("Info");
 	menu->addMenuItem("Info", "Mouse Usage");
 	menu->addMenuItem("Info", "Algorithms");
+	
 
 	gui.add(menu);
 
@@ -40,9 +41,9 @@ int main()
 	Canvas canvas(window, grid);
 	SoundPlayer soundPlayer;
 	AlgoHandler algoHandler(grid, canvas, soundPlayer);
-	MenuActionsBinder(gui, menu, grid, canvas, algoHandler, soundPlayer).bindActions();
-	KeyListener keyListener(gui, menu, grid, canvas, algoHandler, soundPlayer);
 	MouseListener mouseListener(grid, canvas, window);
+	MenuActionsBinder(gui, menu, grid, canvas, algoHandler, soundPlayer, mouseListener).bindActions();
+	KeyListener keyListener(gui, menu, grid, canvas, algoHandler, soundPlayer);
 
 	window.setTitle("Using " + algoHandler.getCurrentSearch()->getIdentifier());
 

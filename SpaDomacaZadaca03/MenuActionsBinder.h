@@ -5,6 +5,7 @@
 #include "Grid.h"
 #include "Canvas.h"
 #include "AlgoHandler.h"
+#include "MouseListener.h"
 
 class MenuActionsBinder {
 private:
@@ -14,6 +15,7 @@ private:
 	Canvas& canvas;
 	AlgoHandler& algoHandler;
 	SoundPlayer& soundPlayer;
+	MouseListener& mouseListener;
 
 	void showMouseUsageMessageBox();
 	void showAlgorithmsMessageBox();
@@ -25,12 +27,14 @@ public:
 		Grid& grid,
 		Canvas& canvas,
 		AlgoHandler& algoHandler,
-		SoundPlayer& soundPlayer
+		SoundPlayer& soundPlayer,
+		MouseListener& mouseListener
 	) : gui(gui),
 		menu(menu),
 		grid(grid),
 		canvas(canvas),
 		algoHandler(algoHandler),
-		soundPlayer(soundPlayer) {};
+		soundPlayer(soundPlayer),
+		mouseListener(mouseListener) {};
 	void bindActions();
 };

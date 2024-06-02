@@ -122,10 +122,11 @@ void MouseListener::setTileState(const sf::Event::MouseMoveEvent& event) {
 MouseListener::MouseListener(Grid& grid, Canvas& canvas, sf::RenderWindow& window) : grid(grid), canvas(canvas), window(window) {
     startPressed = false;
     goalPressed = false;
+    enabled = true;
 }
 
 void MouseListener::handleEvent(const sf::Event& event) {
-    if (!canvas.searchNotRunning()) return;
+    if (!canvas.searchNotRunning() || !enabled) return;
 
     switch (event.type) {
     case sf::Event::MouseButtonPressed:
@@ -152,4 +153,12 @@ void MouseListener::handleEvent(const sf::Event& event) {
     default:
         break;
     }
+}
+
+void MouseListener::enable() {
+    enabled = true;
+}
+
+void MouseListener::disable() {
+    enabled = false;
 }

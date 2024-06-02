@@ -9,6 +9,7 @@ private:
 	Canvas& canvas;
 	sf::RenderWindow& window;
 	bool startPressed, goalPressed;
+	bool enabled;
 
 	int mapMouseXToColumn(const sf::Event::MouseMoveEvent& event);
 	int mapMouseYToRow(const sf::Event::MouseMoveEvent& event);
@@ -23,4 +24,6 @@ public:
 	MouseListener(Grid& grid, Canvas& canvas, sf::RenderWindow& window);
 
 	void handleEvent(const sf::Event& event);
+	void enable();
+	void disable();
 };
